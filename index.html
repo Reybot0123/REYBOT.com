@@ -1,17 +1,56 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>REY BOT</title>
-    <link rel="stylesheet" href="style.css">
+    <title>REY BOT Voice Assistant</title>
   </head>
   <body>
-    <div id="chat-window">
-      <div id="output"></div>
-      <form>
-        <input type="text" id="input" autocomplete="off">
-        <button type="submit">Send</button>
-      </form>
-    </div>
-    <script src="script.js"></script>
+    <h1>Welcome to REY BOT</h1>
+    <p>Speak to REY BOT to get started</p>
+
+    <div id="output"></div>
+
+    <script>
+      // Create a new SpeechRecognition object
+      const recognition = new window.webkitSpeechRecognition();
+
+      // Set the language to English
+      recognition.lang = 'en-US';
+
+      // Define the voice command to trigger the chatbot response
+      const trigger = 'hey rey';
+
+      // Define the chatbot response function
+      function chatbotResponse() {
+        // Replace this with your actual chatbot response code
+        const response = 'Hello, how can I help you?';
+        const output = document.querySelector('#output');
+        output.innerHTML = `<p>${response}</p>`;
+      }
+
+      // Define what to do when speech is recognized
+      recognition.onresult = (event) => {
+        // Get the recognized text
+        const text = event.results[0][0].transcript.toLowerCase();
+
+        // Display the recognized text
+        const output = document.querySelector('#output');
+        output.innerHTML = `<p>You said: "${text}"</p>`;
+
+        // Check if the recognized text matches the trigger phrase
+        if (text.includes(trigger)) {
+          chatbotResponse();
+        }
+      };
+
+      // Define what to do when an error occurs
+      recognition.onerror = (event) => {
+        console.error(event.error);
+      };
+
+      // Start the speech recognition when the page loads
+      window.onload = () => {
+        recognition.start();
+      };
+    </script>
   </body>
 </html>
